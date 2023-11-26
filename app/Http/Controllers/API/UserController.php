@@ -10,6 +10,30 @@ use Auth;
 
 class UserController extends Controller
 {
+
+    public function store(Request $request)
+{
+    // Validar los datos de entrada
+    $validatedData = $request->validate([
+        'name' => 'required|max:255',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|min:6',
+    ]);
+
+    // Crear el usuario
+    $user = User::create([
+        'name' => $validatedData['name'],
+        'email' => $validatedData['email'],
+        'password' => bcrypt($validatedData['password']),
+    ]);
+
+    // Opcionalmente, puedes generar un token de acceso para el usuario
+    $token = $user->createToken('example')->accessToken;
+
+    // Enviar respuesta
+    return response()->json(['user' => $user, 'token' => $token], 201);
+}
+
     /**
      * Display a listing of the resource.
      */
@@ -63,5 +87,4 @@ class UserController extends Controller
         return Response(['data' => 'Unauthorized'],401);
     }
 
-   
 }
