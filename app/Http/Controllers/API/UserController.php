@@ -89,4 +89,28 @@ class UserController extends Controller
         return Response(['data' => 'Unauthorized'],401);
     }
 
+    public function resetPasswordByEmail(Request $request): Response
+{
+    // Validar los datos de entrada
+    $validatedData = $request->validate([
+        'email' => 'required|email|exists:users,email',
+        'new_password' => 'required|min:6|confirmed',
+    ]);
+
+    // Buscar al usuario por email
+    $user = User::where('email', $validatedData['email'])->first();
+
+    if (!$user) {
+        return Response(['error' => 'Usuario no encontrado'], 404);
+    }
+
+    // Actualizar la contraseña
+    $user->password = bcrypt($validatedData['new_password']);
+    $user->save();
+
+    // Aquí puedes enviar una notificación al usuario informando del cambio
+
+    return Response(['message' => 'Contraseña actualizada con éxito'], 200);
+}
+
 }
