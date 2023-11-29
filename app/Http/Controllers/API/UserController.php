@@ -40,24 +40,28 @@ class UserController extends Controller
      * Display a listing of the resource.
      */
     public function loginUser(Request $request): Response
-    {
-        $input = $request->all();
+{
+    $input = $request->all();
 
-        Auth::attempt($input);
-
+    if (Auth::attempt($input)) {
         $user = Auth::user();
+        $token = $user->createToken('example')->accessToken;
 
-        if (Auth::attempt($input)) {
-            $user = Auth::user();
-            $token = $user->createToken('example')->accessToken;
-            return Response(['status' => 200, 'token' => $token], 200);
-        } else {
-            return Response(['error' => 'Unauthorized'], 401);
-        }
-        
-        //$token = $user->createToken('example')->accessToken;
-        //return Response(['status' => 200,'token' => $token],200);
+        // Asegúrate de que el modelo User tenga un método para obtener el rol
+        // Por ejemplo, podría ser un método llamado 'role' que devuelva la relación
+        $role = $user->role; // O la lógica adecuada para obtener el rol
+
+        return Response([
+            'status' => 200, 
+            'token' => $token,
+            'user' => $user->toArray(), // O la información específica que quieras incluir
+            'role' => $role // Aquí agregas el rol
+        ], 200);
+    } else {
+        return Response(['error' => 'Unauthorized'], 401);
     }
+}
+
 
     /**
      * Store a newly created resource in storage.
