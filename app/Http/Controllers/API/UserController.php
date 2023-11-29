@@ -49,7 +49,7 @@ class UserController extends Controller
 
         // Asegúrate de que el modelo User tenga un método para obtener el rol
         // Por ejemplo, podría ser un método llamado 'role' que devuelva la relación
-        $role = $user->role; // O la lógica adecuada para obtener el rol
+        $role = $user->rol; // O la lógica adecuada para obtener el rol
 
         return Response([
             'status' => 200, 
