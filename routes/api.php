@@ -26,8 +26,8 @@ Route::controller(UserController::class)->group(function(){
 });
 
 Route::controller(UserController::class)->group(function(){
-
     Route::get('user','getUserDetail');
     Route::get('logout','userLogout');
-
+    // Ruta para obtener todos los usuarios
+    Route::get('user', 'getAllUsers');
 })->middleware('auth:api');

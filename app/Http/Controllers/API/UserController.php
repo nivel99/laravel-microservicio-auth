@@ -117,4 +117,11 @@ class UserController extends Controller
     return Response(['message' => 'Contraseña actualizada con éxito'], 200);
 }
 
+public function getAllUsers(): Response
+{
+    $users = User::all();
+
+    return Response(['data' => $users], 200);
+}
+
 }
