@@ -19,6 +19,9 @@ class UserController extends Controller
         'email' => 'required|email|unique:users',
         'password' => 'required|min:6',
         'rol' => 'required|min:6',
+        'telefono' => 'required',
+        'tipodocumento' => 'required',
+        'numerodocumento' => 'required',
     ]);
 
     // Crear el usuario
@@ -27,6 +30,9 @@ class UserController extends Controller
         'email' => $validatedData['email'],
         'password' => bcrypt($validatedData['password']),
         'rol' => $validatedData['rol'],
+        'telefono' => $validatedData['telefono'],
+        'tipodocumento' => $validatedData['tipodocumento'],
+        'numerodocumento' => $validatedData['numerodocumento']
     ]);
 
     // Opcionalmente, puedes generar un token de acceso para el usuario
